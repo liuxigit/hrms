@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>后台登录-X-admin2.0</title>
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/font.css">
+	<link rel="stylesheet" href="./css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+
+</head>
+<body class="login-bg" >
+    
+    <div class="login" id="account">
+        <div class="message">人力资源管理系统-账号登录</div>
+        <div id="darkbannerwrap"></div>
+		<hr class="hr15">
+        <form method="post" class="layui-form" id="user" >
+            <input name="username" placeholder="用户名" id="username"  type="text" lay-verify="required" class="layui-input" >
+            <hr class="hr15">
+            <input id="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
+            <hr class="hr15">
+            <input value="登录" lay-submit lay-filter="userLogin" style="width:100%;" type="button" onclick="login()">
+            <hr class="hr20" >
+            <input value="注册" style="width:100%;" type="button" onclick="regist()">
+
+        </form>
+        <hr>
+        <input id="rem" type="checkbox" >记住用户名和密码
+        &nbsp;
+        <input id="aut" type="checkbox" >自动登陆
+        <br>
+        <br>
+        <a style="cursor:pointer" onclick="changeLogin(1)">账号登录</a>
+        <a style="cursor:pointer" onclick="changeLogin(0)">邮箱登录</a>
+        <a style="cursor:pointer" onclick="changeLogin(2)">忘记密码</a>
+        <a style="cursor:pointer" onclick="changeLogin(3)">超级管理员</a>
+
+
+    
+        
+    </div>
+
+   <div class="login" id="emailLogin">
+        <div class="message">人力资源管理系统-邮箱登录</div>
+        <div id="darkbannerwrap"></div>
+		<hr class="hr15">
+        <form method="post" class="layui-form" id="user" >
+            <input name="email" placeholder="邮箱" id="email_1"  type="text" lay-verify="required" class="layui-input" >
+            <hr class="hr15">
+            <input id="code" lay-verify="required" placeholder="请输入验证码"  type="password" class="layui-input">
+            <hr class="hr15">
+            <input value="登录" lay-submit lay-filter="userLogin" style="width:100%;" type="button" onclick="emailLog()">
+            <hr class="hr20" >
+            <input value="发送验证码" style="width:100%;" type="button" onclick="sendCode1()">
+            <br>
+            <br>
+            <a style="cursor:pointer" onclick="changeLogin(1)">返回</a>
+
+        </form>
+
+    </div>
+
+
+    <div class="login" id="repwd">
+        <div class="message">重置密码</div>
+        <div id="darkbannerwrap"></div>
+		<hr class="hr15">
+        <form method="post" class="layui-form" id="user" >
+            <input name="email" placeholder="请输入您绑定账号的邮箱" id="email_2"  type="text" lay-verify="required" class="layui-input" >
+            <hr class="hr15">
+            <input name="code2" placeholder="请输入验证码" id="code2"  type="text" lay-verify="required" class="layui-input" >
+            <hr class="hr15">
+            <input value="发送验证码" style="width:100%;" type="button" onclick="sendCode2()">
+            <hr class="hr15">
+            <input value="确定" style="width:100%;" type="button" onclick="just_yzm()">
+            <br>
+            <br>
+            <a style="cursor:pointer"onclick="changeLogin(1)">返回</a>
+        </form>
+    </div>
+
+
+    <div class="login" id="adminLogin">
+        <div class="message">人力资源系统-超级管理员</div>
+        <div id="darkbannerwrap"></div>
+		<hr class="hr15">
+        <form method="post" class="layui-form" id="user" >
+            <input name="username" placeholder="管理员用户名" id="admin_username"  type="text" lay-verify="required" class="layui-input" >
+            <hr class="hr15">
+            <input id="admin_password" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
+            <hr class="hr15">
+            <input value="登录" lay-submit lay-filter="userLogin" style="width:100%;" type="button" onclick="admin_login()">
+            <hr class="hr20" >
+
+        </form>
+
+        <br>
+        <br>
+        <a style="cursor:pointer" onclick="changeLogin(1)">返回</a>
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            &nbsp;
+
+
+    </div>
+
+
+
+</body>
+<script>
+		function login(){
+			var username = $("#username").val();
+			var password = $("#password").val();
+            if($("#username").val()==""){
+                alert("请输入用户名");
+                return;
+            }
+            if($("#password").val()==""){
+                layer.alert("请输入密码");
+                return;
+            }
+            $.ajax({
+                url:"/login",
+                type:"get",
+                data:{"username":username,"password":password},
+                success:function (rs){
+                    console.log(rs);
+                    if(rs.info=="登录成功"){
+                        remember();
+                        automatic();
+                        if((localStorage.getItem("state")!="true") && (localStorage.getItem("aut")!="true")){
+                            localStorage.clear();
+                        }
+                        localStorage.setItem("username",username);
+                        localStorage.setItem("password",password);
+                        var s =setTimeout(function (){
+                            window.location.href='/static/index.html';
+                        },4000);
+
+                        var t="..";
+                        layer.confirm('登陆中.'+t, {
+                          title: "请稍等",
+                          btn: ['取消'], //可以无限个按钮
+                          icon: 6,
+                          shade: 0.3,
+                          closeBtn: 0,
+                          anim: 5,
+                          btnAlign: "c",
+                        },function(index, layero){
+                            //按钮【按钮三】的回调
+                           clearTimeout(s);
+                           layer.close(index);
+                        });
+                        //function myTimer(){
+                            //t+=".";
+                        //}
+                        //setInterval(function(){myTimer()},1000);
+
+                    }else {
+                        layer.alert(rs.info);
+                    }
+                }
+            })
+		}
+
+
+        function admin_login(){
+			var username = $("#admin_username").val();
+			var password = $("#admin_password").val();
+            if($("#username").val()==""){
+                alert("请输入用户名");
+                return;
+            }
+            if($("#password").val()==""){
+                layer.alert("请输入密码");
+                return;
+            }
+            $.ajax({
+                url:"/admin_login",
+                type:"get",
+                data:{"username":username,"password":password},
+                success:function (rs){
+                    console.log(rs);
+                    if(rs.info=="登录成功"){
+                        localStorage.setItem("admin_username",username);
+                        var s =setTimeout(function (){
+                            window.location.href='/static/index_admin.html';
+                        },4000);
+                        var t="..";
+                        layer.confirm('登陆中.'+t, {
+                          title: "请稍等",
+                          btn: ['取消'], //可以无限个按钮
+                          icon: 6,
+                          shade: 0.3,
+                          closeBtn: 0,
+                          anim: 5,
+                          btnAlign: "c",
+                        },function(index, layero){
+                            //按钮【按钮一】的回调
+                            location.href="login.html"
+                            layer.close(index);
+                        });
+
+
+                    }else {
+                        layer.alert(rs.info);
+                    }
+                }
+            })
+		}
+
+        function emailLog(){
+            var code=$("#code").val();
+            var c = localStorage.getItem("code");
+            if(code==c){
+                location.href="/static/index2.html";
+            }else{
+                layer.alert("验证码不正确");
+            }
+
+        }
+        //判断验证码是否正确
+        function just_yzm(){
+            var code2=$("#code2").val();
+            var c = localStorage.getItem("code2");
+            if(code2==c){
+                location.href="/static/rePwd.html";
+            }else{
+                layer.alert("验证码不正确");
+            }
+
+        }
+
+
+        function regist(){
+            x_admin_show('添加用户','./regist.html',500,300);
+        }
+
+        function remember(){
+            var username = $("#username").val();
+			var password = $("#password").val();
+            //获取勾选状态
+            var rs =$("#rem").prop("checked");
+            if(rs==true){
+                localStorage.setItem("username",username);
+                localStorage.setItem("password",password);
+                localStorage.setItem("state","true");
+            }else{
+                localStorage.setItem("state","false");
+
+            }
+        }
+
+        function automatic(){
+            var rs =$("#aut").prop("checked");
+            if(rs==true){
+                if(localStorage.getItem("state")==false){
+
+                    var username = $("#username").val();
+			        var password = $("#password").val();
+                    localStorage.setItem("username",username);
+                    localStorage.setItem("password",password);
+                    localStorage.setItem("state","true");
+
+                }
+                if(localStorage.getItem("state")==null){
+                    var username = $("#username").val();
+			        var password = $("#password").val();
+                    localStorage.setItem("username",username);
+                    localStorage.setItem("password",password);
+                    localStorage.setItem("state","true");
+
+
+                }
+                localStorage.setItem("aut","true");
+            }else{
+                localStorage.setItem("aut","false");
+            }
+        }
+        function changeLogin(num){
+            if(num==1){
+                $("#account").show();
+                $("#emailLogin").hide();
+                $("#repwd").hide();
+                $("#adminLogin").hide();
+
+            }
+            if (num==0){
+                $("#account").hide();
+                $("#emailLogin").show();
+                $("#repwd").hide();
+                $("#adminLogin").hide();
+            }
+            if(num==2){
+                $("#account").hide();
+                $("#emailLogin").hide();
+                $("#repwd").show();
+                $("#adminLogin").hide();
+            }
+            if(num==3){
+                $("#account").hide();
+                $("#emailLogin").hide();
+                $("#repwd").hide();
+                $("#adminLogin").show();
+            }
+        }
+        function sendCode1(){
+            var email_1=$("#email_1").val();
+            $.ajax({
+                url:"/sendCode",
+                type:"get",
+                data:{"email_1":email_1},
+                success:function (rs){
+                    layer.alert(rs.info);
+                    console.log(rs);
+                    if(rs.info=="邮件发送成功"){
+                        localStorage.setItem("code",rs.code) ;
+                    }
+                    if(rs.info=="该邮箱未注册"){
+                        layer.alert(rs.info);
+                    }
+                    if(rs.info=="邮件发送失败"){
+                        layer.alert(rs.info);
+                    }
+                }
+            })
+        }
+
+        function sendCode2(){
+            var email_2=$("#email_2").val();
+            $.ajax({
+                url:"/sendCode_repwd",
+                type:"get",
+                data:{"email_2":email_2},
+                success:function (rs){
+                    layer.alert(rs.info);
+                    console.log(rs);
+                    if(rs.info=="邮件发送成功"){
+                        localStorage.setItem("code2",rs.code) ;
+                        localStorage.setItem("email_2",email_2) ;
+                    }
+                    if(rs.info=="该邮箱地址未绑定账号"){
+                        layer.alert(rs.info);
+                    }
+                    if(rs.info=="邮件发送失败"){
+                        layer.alert(rs.info);
+                    }
+                }
+            })
+        }
+        //文档加载事件
+        $(function (){
+            //隐藏邮箱
+            $("#emailLogin").hide();
+            $("#repwd").hide();
+            $("#adminLogin").hide();
+            var state=Boolean(localStorage.getItem("state"));
+            //alert("state=="+state);
+            console.log(typeof (state));
+            var aut=localStorage.getItem("aut");
+            //alert("aut=="+aut);
+            var username=localStorage.getItem("username");
+
+            var password=localStorage.getItem("password");
+
+            $("#username").val(username);
+            $("#password").val(password);
+
+            $("#rem").prop("checked",state);
+
+            $("#aut").prop("checked",aut);
+            if(aut=='false'){
+               $("#aut").prop("checked",false);
+            }
+            if(aut=='true'){
+                $("#aut").prop("checked",true);
+                login();
+            }
+
+        })
+
+</script>
+</html>

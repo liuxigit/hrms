@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>后台登录-X-admin2.0</title>
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/font.css">
+	<link rel="stylesheet" href="./css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+
+</head>
+<body class="login-bg" >
+
+    <div class="login" id="repwd">
+        <div class="message">重置密码</div>
+        <div id="darkbannerwrap"></div>
+		<hr class="hr15">
+        <form method="post" class="layui-form" id="user" >
+            <input name="email" placeholder="请输入新密码" id="newPwd"  type="password" lay-verify="required" class="layui-input" >
+            <input name="code2" placeholder="确认新密码" id="surePwd"  type="password" lay-verify="required" class="layui-input" >
+            <hr class="hr15">
+            <input value="重置密码" style="width:100%;" type="button" onclick="repwd()">
+
+        </form>
+    </div>
+
+</body>
+<script>
+    //重置密码函数
+    function repwd(){
+        var email_2 = localStorage.getItem("email_2")
+
+        var newPwd = $("#newPwd").val();
+
+        var surePwd = $("#surePwd").val();
+
+        if(newPwd==""){
+            layer.alert("新密码不能为空");
+            return;
+        }
+        if(surePwd==""){
+            layer.alert("请确认密码");
+            return;
+        }
+        if(surePwd!=newPwd){
+            layer.alert("两次输入的密码不一致");
+            return;
+        }
+        $.ajax({
+            url:"/repwd",
+            type:"get",
+            data:{"email_2":email_2, "newPwd":newPwd},
+            success:function (rs){
+                if(rs.info=="重置成功"){
+                    layer.confirm('重置成功', {
+                          title: "重置成功",
+                          btn: ['确定'], //可以无限个按钮
+                          icon: 6,
+                          shade: 0.3,
+                          closeBtn: 0,
+                          anim: 5,
+                          btnAlign: "c",
+                        },function(index, layero){
+                            //按钮【按钮三】的回调
+                            location.href="login.html"
+                           layer.close(index);
+                        });
+                }
+                else{
+                    layer.alert(rs.info);
+                }
+            }
+
+        })
+    }
+</script>
+</html>

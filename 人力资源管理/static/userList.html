@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <title>员工列表页面</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">演示</a>
+        <a>
+          <cite>导航元素</cite></a>
+      </span>
+    </div>
+    <div class="x-body">
+      <div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so">
+
+          <input type="text" id="username"  placeholder="输入用户名查询...." autocomplete="off" class="layui-input">
+          <button class="layui-btn"  lay-submit="" lay-filter="sreach" type="button" onclick="loadData()"><i class="layui-icon">&#xe615;</i></button>
+        </form>
+      </div>
+      <xblock>
+
+        <button class="layui-btn" onclick="x_admin_show('添加用户','./userAdd.html',450,300)"><i class="layui-icon"></i>添加</button>
+
+
+          <span class="x-right" style="line-height:40px" id="total"></span>
+
+      </xblock>
+      <table class="layui-table">
+        <thead>
+          <tr>
+            <th>
+              <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
+            </th>
+
+            <th>用户编号</th>
+            <th>用户名</th>
+            <th>密码</th>
+            <th>登陆状态</th>
+            <th>邮箱</th>
+            <th>操作</th>
+        </thead>
+        <tbody id="tb">
+
+        </tbody>
+      </table>
+      <div class="page">
+        <div>
+          <a class="prev" href="javascript:prev()">&lt;&lt;</a>
+
+          <span class="current" id="curPage">1</span>
+
+          <a class="next" href="javascript:next()">&gt;&gt;</a>
+          <span class="current" id="totalPage"></span>
+
+        </div>
+      </div>
+
+    </div>
+
+</body>
+<script>
+    //文档加载事件
+    $(function () {
+        //运行loadData
+        loadData();
+    })
+    //页码
+    var page = 1;
+    //每页要显示的条数
+    var row =5;
+    //总页数
+    var totalPage=0;
+    //总条数
+    var total=0;
+    //定义一个加载数据的函数
+    function loadData() {
+        // 获取要查询的姓名
+        var position = $("#username").val();
+       // 向服务端发送ajax请求
+       $.ajax({
+           url:"/userList/",
+           type:"get",
+           data: {"page":page,"row":row,"position":position},
+           success:function (rs) {
+               console.log(rs);
+               totalPage = rs.totalPage;
+               total = rs.total;
+               //显示多少条
+               $("#total").text("总共"+total+"条数据");
+               //显示当前页码
+               $("#curPage").text(page);
+               //显示总页数
+               $("#totalPage").text("共有"+totalPage+"页")
+               //遍历rs
+               var html ="";
+               for(var i=0;i<rs.list.length;i++){
+                   html += "<tr>" +
+
+                         "<td>"+
+                         "<div class=\"layui-unselect layui-form-checkbox\"lay-skin=\"primary\" data-id='2'><i class=\"layui-icon\">&#xe605;</i></div>"+
+                         "</td>"+
+                         "<td>"+rs.list[i].id+"</td>"+
+                         "<td>"+rs.list[i].name+"</td>"+
+                         "<td>"+rs.list[i].pwd+"</td>"+
+                         "<td>"+rs.list[i].user_email+"</td>"+
+                         "<td>"+rs.list[i].state+"</td>"+
+                          "<td class=\"td-manage\">"+
+
+                            "<a title=\"编辑\"  onclick=\"edit(this)\" href=\"javascript:;\">"+
+                                "<i class=\"layui-icon\">&#xe642;</i>"+
+                            "</a>"+
+                             "<a title=\"删除\" onclick=\"member_del(this)\" href=\"javascript:;\">"+
+                                "<i class=\"layui-icon\">&#xe640;</i>"+
+                            "</a>"+
+                          "</td>"+
+                         "</tr>";
+               }
+               //赋值到tbody中
+               $("#tb").html(html);
+           }
+
+       })
+    }
+
+    function edit(obj) {
+        //获取表格第二列的值
+        var id=$(obj).parent().parent().find("td").eq(1).text();
+        //获取表格第三列的值
+        var name=$(obj).parent().parent().find("td").eq(2).text();
+        //获取表格第四列的值
+        var pwd=$(obj).parent().parent().find("td").eq(3).text();
+        //获取表格第五列的值
+        var user_email=$(obj).parent().parent().find("td").eq(5).text();
+        console.log(user_email);
+
+        //把id、name、position、age存入到本地存储
+        localStorage.setItem("id",id);
+        localStorage.setItem("name",name);
+        localStorage.setItem("pwd",pwd);
+        localStorage.setItem("user_email",user_email);
+
+        //打开teacherEdit.html弹窗
+        x_admin_show('编辑','userEdit.html',450,350);
+
+    }
+
+    //删除
+    function member_del(obj){
+        var id=$(obj).parent().parent().find("td").eq(1).text();
+        //对于一个确认删除的弹窗
+        layer.confirm("你确认要删除吗？",function (){
+            //发送ajax请求
+            $.ajax({
+                url: "/userDel/",
+                type: "get",
+                data:{"id":id},
+                success:function (rs){
+                    if(rs.info==="删除成功"){
+                        layer.msg('已删除!',{icon:1,time:1000});
+                        //刷新数据
+                        loadData();
+                    }else {
+                        layer.alert(rs.info);
+                    }
+                }
+            })
+        })
+    }
+
+
+        //上一页
+    function prev(){
+        page--;
+        if(page<=0){
+            page=1;
+        }
+        //刷新数据
+        loadData();
+    }
+        //下一页
+    function next(){
+        page++;
+        if(page>totalPage){
+            page = totalPage;
+        }
+        //刷新数据
+        loadData();
+    }
+</script>
+</html>

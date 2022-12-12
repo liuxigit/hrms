@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <title>员工信息修改</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <div class="x-body">
+        <form class="layui-form">
+          <div class="layui-form-item">
+              <label for="username" class="layui-form-label">
+                  <span class="x-red">*</span>编号
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="id" required="" lay-verify="required" disabled
+                  autocomplete="off" value="" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>唯一的象征
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="phone" class="layui-form-label">
+                  <span class="x-red">*</span>姓名
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" value="" id="name" required=""
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>必填项
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="phone" class="layui-form-label">
+                  <span class="x-red">*</span>性别
+              </label>
+              <div class="layui-input-inline">
+			    <select id="sex" style="height: 25px">
+				<option value="男" name="sex">男</option>
+				<option value="女" name="sex">女</option>
+			    </select>
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>必填项
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="phone" class="layui-form-label">
+                  <span class="x-red">*</span>出生日期
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" value="" id="birth" required=""
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>必填项
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="phone" class="layui-form-label">
+                  <span class="x-red">*</span>联系电话
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" value="" id="phone" required=""
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>必填项
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="phone" class="layui-form-label">
+                  <span class="x-red">*</span>邮箱地址
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" value="" id="email" required=""
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>必填项
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="phone" class="layui-form-label">
+                  <span class="x-red">*</span>学历
+              </label>
+              <div class="layui-input-inline">
+                <select id="edu_back" style="height: 25px">
+				<option value="小学" name="edu_back">小学</option>
+				<option value="初中" name="edu_back">初中</option>
+				<option value="高中" name="edu_back">高中</option>
+				<option value="专科" name="edu_back">专科</option>
+				<option value="本科" name="edu_back">本科</option>
+				<option value="研究生" name="edu_back">研究生</option>
+			    </select>
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>必填项
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="phone" class="layui-form-label">
+                  <span class="x-red">*</span>部门
+              </label>
+              <div class="layui-input-inline">
+                <select id="section" style="height: 25px">
+				<option value="生产部" name="section">生产部</option>
+				<option value="销售部" name="section">销售部</option>
+				<option value="后勤部" name="section">后勤部</option>
+				<option value="开发部" name="section">开发部</option>
+				<option value="行政部" name="section">行政部</option>
+				<option value="人力资源部" name="section">人力资源部</option>
+			    </select>
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>必填项
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="phone" class="layui-form-label">
+                  <span class="x-red">*</span>职务
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" value="" id="duty" required=""
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>必填项
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="phone" class="layui-form-label">
+                  <span class="x-red">*</span>入职时间
+              </label>
+              <div class="layui-input-inline">
+                  <input type="date" value="" id="entry_time" required=""
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>必填项
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="phone" class="layui-form-label">
+                  <span class="x-red">*</span>员工状态
+              </label>
+              <div class="layui-input-inline">
+                <select id="state" style="height: 25px">
+				<option value="在职" name="state" >在职</option>
+				<option value="离职" name="state">离职</option>
+				<option value="休假" name="state">休假</option>
+			    </select>
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>必填项
+              </div>
+          </div>
+
+
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+              </label>
+              <button  class="layui-btn" lay-filter="add" lay-submit="" type="button" onclick="update()">
+                  修改
+              </button>
+          </div>
+      </form>
+    </div>
+
+  </body>
+    <script>
+        //触发事件
+        $ (function (){
+            var id =localStorage.getItem("id");
+            var name =localStorage.getItem("name");
+            var sex = localStorage.getItem("sex");
+            var birth =localStorage.getItem("birth");
+            var phone = localStorage.getItem("phone");
+            var email = localStorage.getItem("email");
+            var edu_back = localStorage.getItem("edu_back");
+            var section = localStorage.getItem("section");
+            var duty = localStorage.getItem("duty");
+            var entry_time = localStorage.getItem("entry_time");
+            var state = localStorage.getItem("state");
+
+            $("#id").val(id);
+            $("#name").val(name);
+            $("#sex").val(sex);
+            $("#birth").val(birth);
+            $("#phone").val(phone);
+            $("#email").val(email);
+            $("#edu_back").val(edu_back);
+            $("#section").val(section);
+            $("#duty").val(duty);
+            $("#entry_time").val(entry_time);
+            $("#state").val(state);
+
+        })
+
+        function update(){
+            var id = $("#id").val();
+
+            var name = $("#name").val();
+            var sex = $("#sex").val();
+            var birth = $("#birth").val();
+            var phone = $("#phone").val();
+            var email = $("#email").val();
+            var edu_back = $("#edu_back").val();
+            var section = $("#section").val();
+
+            var duty = $("#duty").val();
+
+            var entry_time = $("#entry_time").val();
+            var state = $("#state").val();
+
+            //发送请求
+            $.ajax({
+                url:"/staffUpdate/",//服务端地址
+                type:"get",//请求类型
+                data:{"id":id,"name":name,"sex":sex,"birth":birth,"phone":phone,"email":email,"edu_back":edu_back,"section":section,"duty":duty,"entry_time":entry_time,"state":state},
+                success:function (rs){//链接服务端成功触发的函数 rs:后端响应
+                    //把rs转换成js对象
+                    console.log(rs);
+
+                    if(rs.info=="修改成功"){
+                        parent.layer.alert(rs.info);
+                        var index=parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                        parent.loadData();
+
+                    }
+                    else{
+                        layer.alert(rs.info);
+                    }
+                }
+            })
+        }
+    </script>
+</html>

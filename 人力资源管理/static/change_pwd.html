@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <title>用户密码修改</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <div class="x-body">
+        <form class="layui-form">
+          <div class="layui-form-item">
+              <label for="phone" class="layui-form-label">
+                  <span class="x-red">*</span>邮箱地址
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" value="" id="email" required=""
+                  autocomplete="off" class="layui-input" onclick="autoemail()">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>必填项
+              </div>
+          </div>
+
+
+            <div class="layui-form-item">
+              <label for="phone" class="layui-form-label">
+                  <span class="x-red">*</span>原密码
+              </label>
+              <div class="layui-input-inline">
+                  <input type="password" value="" id="last_pwd" required=""
+                  autocomplete="off" class="layui-input" onclick="autoemail()">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>必填项
+              </div>
+          </div>
+
+
+          <div class="layui-form-item">
+              <label for="L_email" class="layui-form-label">
+                  <span class="x-red">*</span>新密码
+              </label>
+              <div class="layui-input-inline">
+                  <input type="password" value="" id="newPwd" required=""
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>必填项
+              </div>
+          </div>
+
+
+          <div class="layui-form-item">
+              <label for="L_email" class="layui-form-label">
+                  <span class="x-red">*</span>确认新密码
+              </label>
+              <div class="layui-input-inline">
+                  <input type="password" value="" id="surePwd" required=""
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>请确认密码
+              </div>
+          </div>
+
+
+          <div class="layui-form-item">
+              <label for="phone" class="layui-form-label">
+                  <span class="x-red">*</span>验证码
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" value="" id="code" required=""
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <input value="发送验证码" style="width:100%;" type="button" onclick="sendCode()">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+              </label>
+              <button  class="layui-btn" lay-filter="add" lay-submit="" type="button" onclick="change_pwd()">
+                  修改密码
+              </button>
+          </div>
+
+      </form>
+    </div>
+    <script>
+        //根据登陆的用户名获取绑定该用户的电子邮件并填入文本框
+        function autoemail(){
+            var username = localStorage.getItem("username");
+            console.log(username);
+            $.ajax({
+                url: "/autoEmail/",
+                type: "get",
+                data:{"username":username},
+                success:function (rs){
+                    console.log(rs)
+                    $("#email").val(rs.info)
+                }
+            })
+        }
+        //重置密码
+        function change_pwd(){
+            var username = localStorage.getItem("username");
+            console.log(username)
+
+            var email = $("#email").val();
+
+            var last_pwd = $("#last_pwd").val();
+
+            var newPwd = $("#newPwd").val();
+
+            var surePwd = $("#surePwd").val();
+
+            var code=$("#code").val()
+
+            if (email==""){
+                layer.alert("邮箱不能为空");
+                return;
+            }
+            if(last_pwd!=localStorage.getItem("password")){
+                layer.alert("原密码错误")
+                return;
+            }
+            if(newPwd==""){
+                layer.alert("新密码不能为空");
+                return;
+            }
+            if (surePwd==""){
+                layer.alert("请确认密码");
+                return;
+            }
+            if(surePwd!=newPwd){
+                layer.alert("两次密码输入不一致");
+                return;
+            }
+            if(code==""){
+                layer.alert("验证码不能为空")
+                return;
+            }
+            if(code!=localStorage.getItem("code")){
+                layer.alert("验证码不正确")
+                return;
+            }
+
+            $.ajax({
+                url:"/changePwd/",
+                type:"get",
+                data:{"newPwd":newPwd,"username":username},
+                success:function (rs){
+                    console.log(rs);
+                    if(rs.info=="修改成功"){
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.alert(rs.info);
+                        parent.layer.close(index);
+                    }
+                    else{
+                        layer.alert(rs.info);
+                    }
+                }
+            })
+        }
+        function sendCode(){
+            var email = $("#email").val();
+
+            //发送请求
+            $.ajax({
+                url:"/sendCode/",//服务端地址
+                type:"get",//请求类型
+                data:{"email":email},
+                success:function (rs){//链接服务端成功触发的函数 rs:后端响应
+                    //把rs转换成js对象
+                    console.log(rs);
+
+                    if(rs.info=="邮件发送成功"){
+                        layer.alert(rs.info);
+                        //验证码存储到本地
+                        localStorage.setItem("code", rs.code);
+                    }
+                }
+            })
+        }
+    </script>
+  </body>
+
+</html>

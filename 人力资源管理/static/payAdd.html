@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <title>学生修改页面</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <div class="x-body">
+        <form class="layui-form">
+
+          <div class="layui-form-item">
+              <label for="L_email" class="layui-form-label">
+                  <span class="x-red">*</span>员工编号
+              </label>
+
+              <div class="layui-input-inline">
+                  <div class="layui-input-inline">
+                  <input type="text" value="" id="staff_id" name="sex" required=""
+                  autocomplete="off" class="layui-input">
+              </div>
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>员工编号是必填项
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="phone" class="layui-form-label">
+                  <span class="x-red">*</span>类型
+              </label>
+             <div class="layui-input-inline">
+                  <select name="city" lay-verify="" class="layui-select">
+                      <option name="1" value="">请选择状态</option>
+                      <option name="1" value="请假">请假</option>
+                      <option name="1" value="出差">出差</option>
+                      <option name="1" value="加班">加班</option>
+                      <option name="1" value="补休">补休</option>
+                      <option name="1" value="调班">调班</option>
+                      <option name="1" value="停工">停工</option>
+
+                    </select>
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="phone" class="layui-form-label">
+                  <span class="x-red">*</span>奖罚金额
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" value="" id="money" name="phone" required=""
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="phone" class="layui-form-label">
+                  <span class="x-red">*</span>考勤人
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" value="" id="check_peo" name="phone" required=""
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>
+          </div>
+          </div>
+
+
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+              </label>
+              <button  class="layui-btn" type="button" onclick="add()">
+                  新增
+              </button>
+          </div>
+      </form>
+    </div>
+    <script>
+        function add(){
+            var staff_id = $("#staff_id").val();
+            var type = $("option[name=1]:checked").val();
+            var money = $("#money").val();
+            var check_peo = $("#check_peo").val();
+            //发送ajax请求
+            $.ajax({
+                url:"/payAdd/",      //服务端地址
+                type:"get",  //请求类型
+                data:{"staff_id":staff_id,"type":type,"money":money,"check_peo":check_peo},  //传到后端参数值
+                success:function (rs){  //连接后端成功触发的函数
+                    console.log(rs);
+                    parent.layer.alert(rs.info);
+                    if(rs.info == "新增成功"){
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                        parent.loadData();
+                    }
+                    else {
+                        layer.alert(rs.info);
+                    }
+                }
+                }
+
+            )
+        }
+    </script>
+  </body>
+</html>

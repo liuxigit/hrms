@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <title>修改人员调动信息</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <div class="x-body">
+        <form class="layui-form">
+          <div class="layui-form-item">
+              <label for="username" class="layui-form-label">
+                  <span class="x-red">*</span>编号
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="pertra_id"  required=""
+                  autocomplete="off" value="admin" class="layui-input" disabled>
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>不可更改
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="phone" class="layui-form-label">
+                  <span class="x-red">*</span>员工编号
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" value="" id="staff_id"  required=""
+                  autocomplete="off" class="layui-input" disabled>
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>不可更改
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="phone" class="layui-form-label">
+                  <span class="x-red">*</span>员工姓名
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" value="" id="name"  required=""
+                  autocomplete="off" class="layui-input" disabled>
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>不可更改
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_email" class="layui-form-label">
+                  <span class="x-red">*</span>原部门
+              </label>
+              <div class="layui-input-inline">
+                  <select name="部门" id="last_section"  class="layui-select">
+                            <option name="last_section_name"></option>
+                            <option value="生产部" name="last_section">生产部</option>
+                            <option value="销售部" name="last_section">销售部</option>
+                            <option value="后勤部" name="last_section">后勤部</option>
+                            <option value="开发部" name="last_section">开发部</option>
+                            <option value="行政部" name="last_section">行政部</option>
+                            <option value="人力资源部" name="last_section">人力资源部</option>
+                     </select>
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red"></span>
+              </div>
+          </div>
+            <div class="layui-form-item">
+              <label for="L_email" class="layui-form-label">
+                  <span class="x-red">*</span>现部门
+              </label>
+              <div class="layui-input-inline">
+                  <select name="部门" id="next_section"  class="layui-select">
+                            <option name="next_section_name"></option>
+                            <option value="生产部" name="next_section">生产部</option>
+                            <option value="销售部" name="next_section">销售部</option>
+                            <option value="后勤部" name="next_section">后勤部</option>
+                            <option value="开发部" name="next_section">开发部</option>
+                            <option value="行政部" name="next_section">行政部</option>
+                            <option value="人力资源部" name="next_section">人力资源部</option>
+                  </select>
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red"></span>
+              </div>
+          </div>
+            <div class="layui-form-item">
+              <label for="L_email" class="layui-form-label">
+                  <span class="x-red">*</span>原职务
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" value="" id="last_duty" required=""
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red"></span>
+              </div>
+          </div>
+            <div class="layui-form-item">
+              <label for="L_email" class="layui-form-label">
+                  <span class="x-red">*</span>现职务
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" value="" id="next_duty" required=""
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red"></span>
+              </div>
+          </div>
+            <div class="layui-form-item">
+              <label for="L_email" class="layui-form-label">
+                  <span class="x-red">*</span>调动时间
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" value="" id="trans_time" required=""
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red"></span>
+              </div>
+          </div>
+            <div class="layui-form-item">
+              <label for="L_email" class="layui-form-label">
+                  <span class="x-red">*</span>调动原因
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" value="" id="causee" required=""
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red"></span>
+              </div>
+            </div>
+
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+              </label>
+              <button  class="layui-btn" type="button" onclick="update()">
+                  修改
+              </button>
+          </div>
+      </form>
+    </div>
+    <script>
+        //定义文档记载事件
+        $(function (){
+            //获取本地存入的值
+            var pertra_id = localStorage.getItem("pertra_id");
+            var staff_id = localStorage.getItem("staff_id");
+            var name = localStorage.getItem("name");
+            var last_section = localStorage.getItem("last_section");
+            var next_section = localStorage.getItem("next_section");
+            var last_duty = localStorage.getItem("last_duty");
+            var next_duty = localStorage.getItem("next_duty");
+            var trans_time = localStorage.getItem("trans_time");
+            var causee = localStorage.getItem("causee");
+            //给编号，姓名，年龄文本框赋值
+            $("#pertra_id").val(pertra_id);
+            $("#staff_id").val(staff_id);
+            $("#name").val(name);
+            $("option[name=last_section_name]").val(last_section);
+            $("option[name=next_section_name]").val(next_section);
+            $("#last_duty").val(last_duty);
+            $("#next_duty").val(next_duty);
+            $("#trans_time").val(trans_time);
+            $("#causee").val(causee);
+            }
+
+        )
+        //修改
+        function update(){
+        //获取编号
+        var pertra_id = $("#pertra_id").val();
+        //获取员工编号
+        var staff_id = $("#staff_id").val();
+        //获取员工名字
+        var name = $("#name").val();
+        var last_section = $("#last_section").val();
+        var next_section = $("#next_section").val();
+        var last_duty = $("#last_duty").val();
+        var next_duty = $("#next_duty").val();
+        var trans_time = $("#trans_time").val();
+        var causee = $("#causee").val();
+        //发送a.jax请求
+        $.ajax({
+            url:"/tptUpdata/",//服务端地址
+            type:"get",//请求类型
+            data:{"pertra_id":pertra_id, "staff_id":staff_id, "name":name,
+                "last_section":last_section, "next_section":next_section,
+                "last_duty":last_duty, "next_duty":next_duty,"trans_time":trans_time,
+                "causee":causee
+            },//传值参数
+            success:function (rs){
+                //连接服务端成功触发的函数,rs后端传来的值
+                //把rs转化成js对象
+                console.log(rs);
+                if(rs.info=="修改成功"){
+                    //关闭弹窗
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.alert(rs.info)
+                    parent.layer.close(index)
+                    //刷新数据
+                    parent.loadData();
+                }
+            }
+        })
+    }
+    </script>
+
+  </body>
+
+</html>
